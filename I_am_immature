@@ -1,0 +1,21 @@
+'''
+
+name = "ada lovelace"
+print(name.title())
+print(name.upper())
+print(name.lower())
+
+full_name = f"TEST{name}ANUS"
+other_fn = "Test" + name + "Anus"
+
+print(full_name)
+print(other_fn)
+
+print("\t", name, "\n" + "\t", other_fn)
+
+'''
+
+print("\t\t\tt\n \t\t  h   h\n \t\t e     e\n \t\td\t\td\n\t\tp \t\tp\n \t\te \t\te\n \t\tn \t\tn\n \t\ti \t\ti\n \t\ts \t\ts\n \t\tp \t\tp\n \t\te \t\te\n \t\tn \t\tn\n \t\ti \t\ti\n \t\ts \t\ts\n \t  t \t\t  t\n \t e \t\t\t  "
+      " e\n \ts \t\t ss \ts \n \tt \t   e   e\t t\n \ti    l\t\tl \t i\n \t   l \t\t  c")
+
+            #It took me over an hour to make this and I don't regret it one bit.
