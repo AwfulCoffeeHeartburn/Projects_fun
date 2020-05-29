@@ -1,0 +1,72 @@
+# Python program for birthday reminders
+# Birthday reminder application
+import time
+import os
+# Download the helper library from https://www.twilio.com/docs/python/install
+
+#Birthday file is the one in which the actual birthdays and dates are present.
+#This file can be manually edited or can be automated.
+#For simplicity, we will edit it manually.
+#Birthdays should be written in this file in the format:
+#'Month-Day Name Surname' (no apostrophe's)
+
+birthday_file = "/home/jerry/Documents/People/Birthdays.txt"
+# birthday_file = "birthdays.txt"
+
+
+# def sms_alert():
+#     # Your Account Sid and Auth Token from twilio.com/console
+#     # DANGER! This is insecure. See http://twil.io/secure
+#     account_sid = 'AC6e800a8d22948b370780874d50dab512'
+#     auth_token = '2a5612a2c50772ee08123e8ec1cea84a'
+#     client = Client(account_sid, auth_token)
+#
+#     message = client.messages \
+#         .create(
+#         body="No birthdays today.",
+#         from_='+13203811603',
+#         to='9108034646'
+#     )
+#
+#     print(message.sid)
+
+def LazyFunk():
+    with open("earlyReminder.txt", "r") as file:
+        today = time.strftime('%m-%d')
+        flag = 0
+        for line in file:
+            if today in line:
+                line = line.split(' ')
+                flag = 1
+                #line[1] contains Name and line[2] contains Surname
+                age = currentYear - int(line[3])   #Calculating the age.
+                os.system('notify-send "Birthdays in ten days: ' + line[1]
+                          + ' ' + line[2] + ' ' + 'will be ' + str(age) + ' years old' + ' " ')
+                # sms_alert()
+        if flag == 0:
+            os.system('notify-send "No birthdays coming up."')
+
+def CheckTodaysBithdays():
+    with open("birthdays.txt", "r") as file:
+    #fileName = open(birthday_file, 'r')
+        today = time.strftime('%m-%d')
+        flag = 0
+        for line in file:
+            if today in line:
+                line = line.split(' ')
+                flag = 1
+                #line[1] contains Name and line[2] contains Surname
+                age = currentYear - int(line[3])   #Calculating the age.
+                os.system('notify-send "Birthdays Today: ' + line[1]
+                          + ' ' + line[2] + ' ' + str(age) + ' has turned years old' + ' " ')
+                sms_alert()
+        if flag == 0:
+            os.system('notify-send "No birthdays Today."')
+
+    LazyFunk()
+
+
+if __name__ == '__main__':
+    CheckTodaysBithdays()
+#LazyFunk()
+#CheckTodaysBithdays()
