@@ -1,0 +1,44 @@
+#!/usr/bin/env python3.
+
+# This program is intended to answer a child's arbitrary questions about the world by supplying
+# the current definition of the term searched from the Oxford Dictionary.
+
+# Import PyDictionary API
+# Articulate prompt asking for the term, placing the term in a variable
+# Submit the variable to the dictionary
+# Display the meaning of the term, as well as a random message from Uncle Gabe!
+
+from PyDictionary import PyDictionary
+
+dictionary = PyDictionary()
+
+
+def The_Question():
+    while True:
+        print("press q to quit.")
+        term = input("Mommy what's a... ").lower()
+        if term == 'q':
+            break
+        else:
+            get_meaning(term)
+
+def get_meaning(term):
+    if not dictionary.meaning(str(term)):
+        print("That's not a word apparently, try again.")
+    else:
+        print(dictionary.meaning(str(term)))
+        get_synonym(term)
+        get_antonym(term)
+
+def get_synonym(term):
+    syn = input("Would you like to synonyms for this term? Please press y or n: ").lower()
+    if syn == 'y':
+        print(dictionary.synonym(str(term)))
+
+def get_antonym(term):
+    ant = input("Would you like antonyms for this term? Please press y or n: ").lower()
+    if ant == 'y':
+        print(dictionary.antonym(str(term)))
+
+
+The_Question()
