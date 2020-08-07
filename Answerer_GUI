@@ -1,0 +1,118 @@
+# There should be three frames:
+#       One with an input label for the word and a display label for its meaning.
+#       One with a button asking if the user would like a synonym and a label to display the synonyms.
+#       One with a button asking if the user would like an antonym and a label to display the antonyms.
+# For now I think I'll have the definition displayed in a label, but have the synonyms and antonyms displayed in
+# messageboxes because of the unpredictable nature of their length(s).
+
+# Re-organizing 1:
+# Create definition answer label
+# Create textbox for word input
+# Create synonym answer messagebox
+# Create antonym messagebox
+# Import PyDictionary
+# Create commands for delivering definition, synonyms, and antonyms
+# Place the commands in their respective buttons
+
+# Re-organizing 2:
+# Create a scroll bar for the definition answer box
+# Maybe display the answer in a listbox instead of a label so that the scrollbar is easier to use. It might
+# look better too.
+# Increase the GUI's default width ###CHECK
+# Clean up/Better organize the code
+# Add in additional features such as, but not limited to:
+#   Random messages from Uncle Gabe!
+#   Word translations!
+#   Lets see if we can find a way to look up multiple word phrases like 'Combustion Engine' or "Newfoundland dog'.
+#   Is there a way to get it to show pictures?
+#   Is there a way to get it to use the word in a sentence?
+
+import tkinter
+import tkinter.messagebox
+from PyDictionary import PyDictionary
+dictionary = PyDictionary()
+
+class Question_answer:
+    def __init__(self):
+        # Initializing the main window
+        self._main_window = tkinter.Tk()
+        self._main_window.title("The Answerer")
+
+        self._term_definition = tkinter.StringVar()
+
+        # Initializing the first frame, for holding the word input and text entry box
+        # as well as their corresponding widgets.
+        self._definition_frame = tkinter.Frame(self._main_window)
+        self._definition_frame.pack(padx=125, pady=25)
+        self._question_label = tkinter.Label(self._definition_frame, text="Mommy what's a ", borderwidth=1)
+        self._question_label.pack(side='left')
+        self._term = tkinter.Entry(self._definition_frame)
+        self._term.pack(side='right')
+
+        # The answer frame is for holding the label that displays the definition of the searched term.
+        self._answer_frame = tkinter.Frame(self._main_window)
+        self._answer_frame.pack()
+        self._display_label = tkinter.Label(self._answer_frame, borderwidth=1, relief='solid', width=50, height=20,
+                                            background='white', textvariable=self._term_definition, wraplength=400)
+                                    ### Will need to add in scrolling ###
+        self._display_label.pack(side='bottom', padx=15, pady=5)
+        self._answer_button = tkinter.Button(self._answer_frame, text="Get definition",
+                                             command=self.get_definition)
+        self._answer_button.pack()
+        #self._scrollbar1 = tkinter.Scrollbar(self._display_label, orient=tkinter.VERTICAL)
+        #self._scrollbar1.pack(side='right', fill=tkinter.Y)
+        #self._scrollbar1.config(self._display_label.yview)
+        #self._display_label.config(yscrollcommand=self._scrollbar1.set)
+
+        # Initializing the second frame, for holding the button allowing the user to determine whether or not they'd
+        # like to see the synonyms displayed, as well as displaying the synonyms if that's what the user selects.
+        # Also contains all the necessary labels/buttons.
+        self._synonym_frame = tkinter.Frame(self._main_window, borderwidth=1, relief='solid')
+        self._synonym_frame.pack(padx=25, pady=25)
+        self._syn_button = tkinter.Button(self._synonym_frame, text='Click for synonyms',
+                                          command=self.get_synonyms)
+        self._syn_button.pack(side='left')
+
+
+        # Initializing the third frame, for holding the button allowing the user to determine whether or not they'd
+        # like to see the antonyms displayed, as well as displaying the antonyms if that's what the user selects.
+        # Also contains all the necessary labels/buttons.
+        self._antonym_frame = tkinter.Frame(self._main_window, borderwidth=1, relief='solid')
+        self._antonym_frame.pack(padx=25, pady=25)
+        self._ant_button = tkinter.Button(self._antonym_frame, text='Click for antonyms',
+                                          command=self.get_antonyms)
+        self._ant_button.pack(side='left')
+
+        self._final_frame = tkinter.Frame(self._main_window, borderwidth=1)
+        self._final_frame.pack(padx=25, pady=25)
+        self._exit_btn = tkinter.Button(self._final_frame, text="Exit", command=self.exit)
+        self._exit_btn.pack(side='left')
+        self._clear_btn = tkinter.Button(self._final_frame, text="Clear", command=self.clear_boxes)
+        self._clear_btn.pack(side='right')
+
+        self._main_window.mainloop()
+
+    def get_definition(self):
+        term = str(self._term.get()).lower().strip()
+        if not dictionary.meaning(str(term)):
+            tkinter.messagebox.showinfo("Error", "That's not a word apparently, try again.")
+        else:
+            term = dictionary.meaning(str(term))
+            self._term_definition.set(term)
+            # self._term.delete("0", "end")
+
+    def get_synonyms(self):
+        term = str(self._term.get())
+        tkinter.messagebox.showinfo("Synonyms:", str(dictionary.synonym(term)))
+
+    def get_antonyms(self):
+        term = str(self._term.get())
+        tkinter.messagebox.showinfo("Antonyms:", str(dictionary.antonym(term)))
+
+    def clear_boxes(self):
+        self._term.delete("0", "end")
+        self._term_definition.set(" ")
+
+    def exit(self):
+        self._main_window.quit()
+
